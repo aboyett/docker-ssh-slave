@@ -52,6 +52,9 @@ WORKDIR "${JENKINS_AGENT_HOME}"
 
 COPY setup-sshd /usr/local/bin/setup-sshd
 
+# install sbt
+RUN wget https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt -O /usr/local/bin/sbt && chmod +x /usr/local/bin/sbt
+
 EXPOSE 22
 
 ENTRYPOINT ["setup-sshd"]
