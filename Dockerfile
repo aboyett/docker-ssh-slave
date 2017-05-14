@@ -28,6 +28,7 @@ ARG group=jenkins
 ARG uid=1000
 ARG gid=1000
 ARG JENKINS_AGENT_HOME=/home/${user}
+ARG BOUNCYCASTLE_VERSION=1.47
 ARG JAVA_MAJOR_VERSION=7
 
 ENV JENKINS_AGENT_HOME ${JENKINS_AGENT_HOME}
@@ -57,6 +58,8 @@ COPY setup-sshd /usr/local/bin/setup-sshd
 RUN wget https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt -O /usr/local/bin/sbt && chmod +x /usr/local/bin/sbt
 
 ENV JDK_HOME=/usr/lib/jvm/java-7-openjdk-amd64
+# install bouncycastle
+RUN wget http://central.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/${BOUNCYCASTLE_VERSION}/bcpkix-jdk15on-${BOUNCYCASTLE_VERSION}.jar http://central.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/${BOUNCYCASTLE_VERSION}/bcprov-jdk15on-${BOUNCYCASTLE_VERSION}.jar -P $JDK_HOME/jre/lib/ext/ && echo "security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider" >> $JDK_HOME/jre/lib/security/java.security
 
 EXPOSE 22
 
