@@ -20,7 +20,7 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #  THE SOFTWARE.
 
-FROM openjdk:8-jdk
+FROM openjdk:7-jdk
 LABEL MAINTAINER="Andy Boyett <andy.boyett@gmail.com>"
 
 ARG user=jenkins
@@ -28,6 +28,7 @@ ARG group=jenkins
 ARG uid=1000
 ARG gid=1000
 ARG JENKINS_AGENT_HOME=/home/${user}
+ARG JAVA_MAJOR_VERSION=7
 
 ENV JENKINS_AGENT_HOME ${JENKINS_AGENT_HOME}
 
@@ -54,6 +55,8 @@ COPY setup-sshd /usr/local/bin/setup-sshd
 
 # install sbt
 RUN wget https://raw.githubusercontent.com/paulp/sbt-extras/master/sbt -O /usr/local/bin/sbt && chmod +x /usr/local/bin/sbt
+
+ENV JDK_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 
 EXPOSE 22
 
