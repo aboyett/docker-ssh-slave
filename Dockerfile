@@ -61,6 +61,10 @@ ENV JDK_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 # install bouncycastle
 RUN wget http://central.maven.org/maven2/org/bouncycastle/bcpkix-jdk15on/${BOUNCYCASTLE_VERSION}/bcpkix-jdk15on-${BOUNCYCASTLE_VERSION}.jar http://central.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/${BOUNCYCASTLE_VERSION}/bcprov-jdk15on-${BOUNCYCASTLE_VERSION}.jar -P $JDK_HOME/jre/lib/ext/ && echo "security.provider.11=org.bouncycastle.jce.provider.BouncyCastleProvider" >> $JDK_HOME/jre/lib/security/java.security
 
+# backport git for subtree fix: https://github.com/git/git/commit/933cfeb
+RUN echo "deb http://httpredir.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list && apt-get update \
+    && apt-get install -y -t jessie-backports git
+
 EXPOSE 22
 
 ENTRYPOINT ["setup-sshd"]
